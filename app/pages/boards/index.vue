@@ -55,7 +55,7 @@
               class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
               @click="showCreate = false"
             >
-              Abbrechen
+              Abbrechen2
             </button>
           </div>
         </form>
