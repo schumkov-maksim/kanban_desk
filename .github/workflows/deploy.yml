@@ -5,6 +5,10 @@ on:
     branches:
       - stage
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -30,6 +34,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Ensure SPA mode for static generation
+        run: |
+          node -e "
+            const fs = require('fs');
+            let c = fs.readFileSync('nuxt.config.ts', 'utf8');
+            if (!c.includes('ssr: false')) {
+              c = c.replace('defineNuxtConfig({', 'defineNuxtConfig({\n  ssr: false,');
+              fs.writeFileSync('nuxt.config.ts', c);
+            }
+          "
 
       - name: Generate static site
         run: npm run generate

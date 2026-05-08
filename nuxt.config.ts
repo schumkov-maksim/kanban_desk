@@ -1,4 +1,7 @@
 export default defineNuxtConfig({
+  // SPA mode — required for GitHub Pages (static hosting) and localStorage/cookie auth.
+  // Do NOT remove: without this, nuxt generate fails on auth-protected pages.
+  ssr: false,
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
