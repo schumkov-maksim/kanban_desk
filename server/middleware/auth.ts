@@ -5,12 +5,16 @@ export default defineEventHandler((event) => {
   const publicRoutes = ['/api/auth/login', '/api/auth/register']
   if (!url.startsWith('/api/') || publicRoutes.includes(url)) return
 
-  const auth = getHeader(event, 'authorization')
-  if (!auth?.startsWith('Bearer ')) {
+  const authHeader = getHeader(event, 'authorization')
+  const token = authHeader?.startsWith('Bearer ')
+    ? authHeader.slice(7)
+    : getCookie(event, 'auth_token')
+
+  if (!token) {
     throw createError({ statusCode: 401, message: 'Nicht autorisiert' })
   }
   try {
-    const payload = verifyToken(auth.slice(7))
+    const payload = verifyToken(token)
     event.context.userId = Number(payload.sub)
   } catch {
     throw createError({ statusCode: 401, message: 'Token ungültig' })
