@@ -2,7 +2,7 @@ name: Deploy Nuxt site to Pages
 
 on:
   push:
-    branches: ["stage"]
+    branches: ["stange"]
 
   workflow_dispatch:
 
